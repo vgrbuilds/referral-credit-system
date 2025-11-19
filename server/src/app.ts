@@ -16,6 +16,15 @@ app.use('/auth', authRoutes);
 app.use('/purchase', purchaseRoutes);
 app.use('/referral', referralRoutes);
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    message: 'Server is running',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Error handling middleware (must be last)
 app.use(errorHandler);
 
