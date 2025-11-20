@@ -131,4 +131,9 @@ graph TD
 
 ---
 
-Built for the FileSure Full Stack Developer Intern Assignment.
+## 🌐 Deployed Links
+
+- **Client Application**: [https://referral-credit-system-bice.vercel.app/](https://referral-credit-system-bice.vercel.app/)
+- **Server Application**: [https://referral-credit-system-qffn.onrender.com](https://referral-credit-system-qffn.onrender.com)
+
+Built for the FileSure.
