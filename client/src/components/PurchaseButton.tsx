@@ -11,14 +11,10 @@ const PurchaseButton: React.FC = () => {
         setLoading(true);
         setMessage('');
         try {
-            // Assuming the endpoint is /purchase/first-purchase based on server routes
-            const res = await api.post('/purchase/first-purchase');
+            // Sending amount as required by the server
+            const res = await api.post('/purchase/first-purchase', { amount: 100 });
             setMessage('Purchase successful!');
-            // Update credits if the response contains updated user data or we can re-fetch
-            // For now, let's assume we might need to refresh credits
-            // But wait, the server awards credits to the REFERRER, not the purchaser (usually).
-            // However, if the purchaser gets credits too, we should update.
-            // Let's just show success message.
+            // Ideally we should update credits here, but for now we just show success
         } catch (error: any) {
             setMessage(error.response?.data?.message || 'Purchase failed');
         } finally {
