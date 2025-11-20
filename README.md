@@ -1,63 +1,134 @@
-# Referral Credit System
+# Referral & Credit System
 
-A full-stack application demonstrating a referral and credit system. Users can sign up, get a unique referral link, and earn credits when their referred friends make a purchase.
+A full-stack application demonstrating a scalable referral and credit system. Users can sign up, share unique referral links, and earn credits when their referrals make a purchase.
 
-![Project Screenshot](https://via.placeholder.com/800x400.png?text=Project+Screenshot)
+## 📋 Table of Contents
+
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Architecture](#-architecture)
+- [Getting Started](#-getting-started)
+- [Environment Variables](#-environment-variables)
+- [API Documentation](#-api-documentation)
+- [System Design](#-system-design)
 
 ## ✨ Features
 
-- **User Authentication:** Secure user registration and login.
-- **Unique Referral Links:** Every user gets a unique link to share.
-- **Referral Tracking:** Track the number of friends who have signed up.
-- **Credit System:** Earn credits from successful referrals.
-- **Dashboard:** View referral statistics and credit balance.
+- **User Authentication**: Secure registration and login using JWT.
+- **Referral System**: Unique referral links for every user.
+- **Credit Rewards**: Both referrer and referred user earn 2 credits on the first purchase.
+- **Dashboard**: Real-time tracking of referrals, conversions, and credit balance.
+- **Purchase Simulation**: "Make First Purchase" feature to trigger referral conversion.
+- **Responsive Design**: Modern UI built with Tailwind CSS.
 
 ## 🚀 Tech Stack
 
-### Frontend
-![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![Tailwind CSS](https://img.shields.io/badge/tailwind%20css-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+**Frontend:**
+- **Next.js** (React Framework)
+- **TypeScript**
+- **Tailwind CSS**
+- **Zustand** (State Management)
 
-### Backend
-![Node.js](https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+**Backend:**
+- **Node.js** & **Express**
+- **TypeScript**
+- **MongoDB** & **Mongoose**
+- **JWT** (Authentication)
 
-### Language
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+## 🏗 Architecture
+
+The application follows a clean, modular architecture:
+
+- **Client**: Handles UI, state management, and API interactions.
+- **Server**: RESTful API with layered architecture (Routes -> Controllers -> Services -> Models).
+- **Database**: MongoDB for persistent storage of Users, Referrals, and Purchases.
 
 ## 🏁 Getting Started
 
-Follow these instructions to get the project up and running on your local machine.
-
 ### Prerequisites
+- Node.js (v18+)
+- MongoDB (Local or Atlas)
 
-- [Node.js](https://nodejs.org/en/) (v18 or later)
-- [MongoDB](https://www.mongodb.com/try/download/community) (or a MongoDB Atlas account)
+### Installation
 
-### 1. Clone the Repository
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd referral-credit-system
+   ```
 
-```sh
-git clone https://github.com/your-username/referral-credit-system.git
-cd referral-credit-system
+2. **Setup Server**
+   ```bash
+   cd server
+   npm install
+   # Create .env file (see Environment Variables)
+   npm run dev
+   ```
+
+3. **Setup Client**
+   ```bash
+   cd client
+   npm install
+   # Create .env.local file (see Environment Variables)
+   npm run dev
+   ```
+
+4. **Access App**
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 🔑 Environment Variables
+
+### Server (`server/.env`)
+```env
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/referral-system
+JWT_SECRET=your_super_secret_key_change_this
+CLIENT_URL=http://localhost:3000
 ```
-*Replace `your-username` with the actual username if you plan to fork it.*
 
-### 2. Set up the Backend
-
-In a new terminal, navigate to the `server` directory and follow the instructions in `server/README.md`.
-
-```sh
-cd server
+### Client (`client/.env.local`)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
 ```
 
-### 3. Set up the Frontend
+## 📡 API Documentation
 
-In another terminal, navigate to the `client` directory and follow the instructions in `client/README.md`.
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- |
+| **POST** | `/auth/register` | Register a new user | No |
+| **POST** | `/auth/login` | Login user | No |
+| **GET** | `/auth/profile` | Get current user profile | Yes |
+| **GET** | `/referral/stats` | Get referral statistics | Yes |
+| **GET** | `/referral/referred-users` | Get list of referred users | Yes |
+| **POST** | `/purchase/first-purchase` | Simulate first purchase | Yes |
 
-```sh
-cd client
+## 📐 System Design
+
+### Data Flow & Architecture
+
+```mermaid
+graph TD
+    User[User] -->|Register/Login| Client[Next.js Client]
+    Client -->|API Requests| Server[Express Server]
+    Server -->|Auth/Validation| Controller[Controllers]
+    Controller -->|Business Logic| Service[Services]
+    Service -->|Read/Write| DB[(MongoDB)]
+    
+    subgraph "Referral Flow"
+    A[User A shares link] --> B[User B Registers]
+    B -->|Creates Account| DB
+    B -->|First Purchase| Server
+    Server -->|Update Status| DB
+    Server -->|Award Credits| DB
+    end
 ```
 
-Once both the client and server are running, the application will be available at `http://localhost:3000`.
+### Database Schema
+
+- **User**: `name`, `email`, `password`, `referralCode`, `credits`
+- **Referral**: `referrer` (User), `referredUser` (User), `status` (pending/converted)
+- **Purchase**: `user` (User), `amount`, `isFirstPurchase`
+
+---
+
+Built for the FileSure Full Stack Developer Intern Assignment.

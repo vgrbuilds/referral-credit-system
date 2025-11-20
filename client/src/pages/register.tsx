@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useStore } from '../store/useStore';
 import api from '../services/api';
 import Link from 'next/link';
+import { validateRegistration } from '../utils/validation';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -16,6 +17,13 @@ const Register = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+
+        const validationErrors = validateRegistration({ name, email, password });
+        if (validationErrors.length > 0) {
+            setError(validationErrors[0]);
+            return;
+        }
+
         try {
             const res = await api.post('/auth/register', { name, email, password, referralCode });
             localStorage.setItem('token', res.data.data.token);

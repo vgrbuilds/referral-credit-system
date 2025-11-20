@@ -37,7 +37,7 @@ Animations and visual feedback are implemented using **Framer Motion**.
 
    * Displays metrics: total referred users, converted users, total credits
    * Updates in real-time using Zustand for state management
-   * Uses Tailwind CSS for responsive design and Framer Motion for smooth animations
+   * Uses Tailwind CSS for responsive design
 
 5. **Error Handling & Validation**
 
@@ -52,16 +52,16 @@ The client expects a `.env.local` file in the root directory with the following 
 
 ```env
 PORT=3000
-SERVER_URL=https://your-backend-render-link.onrender.com
+NEXT_PUBLIC_API_URL=https://your-backend-render-link.onrender.com
 ```
 
 * **PORT**: Local development port for Next.js app.
-* **SERVER_URL**: The base URL for all API requests to the backend.
+* **NEXT_PUBLIC_API_URL**: The base URL for all API requests to the backend.
 
 Access the variables in your code as:
 
 ```ts
-const apiUrl = process.env.SERVER_URL;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 ```
 
 ---
@@ -71,7 +71,6 @@ const apiUrl = process.env.SERVER_URL;
 * **Next.js** - React framework for server-side rendering and routing
 * **Tailwind CSS** - Utility-first CSS framework for styling
 * **Zustand** - Lightweight state management for storing user session and dashboard data
-* **Framer Motion** - For UI animations
 
 No other frontend libraries or UI kits are used.
 

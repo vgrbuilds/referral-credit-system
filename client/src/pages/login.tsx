@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useStore } from '../store/useStore';
 import api from '../services/api';
 import Link from 'next/link';
+import { isValidEmail } from '../utils/validation';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -14,6 +15,16 @@ const Login = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+
+        if (!isValidEmail(email)) {
+            setError('Invalid email format');
+            return;
+        }
+        if (!password) {
+            setError('Password is required');
+            return;
+        }
+
         try {
             const res = await api.post('/auth/login', { email, password });
             localStorage.setItem('token', res.data.data.token);

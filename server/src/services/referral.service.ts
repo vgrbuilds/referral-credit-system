@@ -83,6 +83,9 @@ export const convertReferral = async (referredUserId: string): Promise<void> => 
   referral.status = 'converted';
   await referral.save();
 
-  // Award credit to referrer
-  await awardReferralCredit(referral.referrer.toString());
+  // Award 2 credits to referrer
+  await awardReferralCredit(referral.referrer.toString(), 2);
+
+  // Award 2 credits to referred user
+  await awardReferralCredit(referredUserId, 2);
 };

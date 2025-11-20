@@ -1,24 +1,28 @@
 import { ApiError } from './ApiError.js';
+import validator from 'validator';
 
 export const validateEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+  return validator.isEmail(email);
 };
 
 export const validatePassword = (password: string): boolean => {
   // At least 8 characters, one uppercase, one lowercase, one number
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
-  return passwordRegex.test(password);
+  return validator.isStrongPassword(password, {
+    minLength: 8,
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1,
+    minSymbols: 0,
+  });
 };
 
 export const validateReferralCode = (code: string): boolean => {
   // Alphanumeric, 8-16 characters
-  const codeRegex = /^[a-zA-Z0-9]{8,16}$/;
-  return codeRegex.test(code);
+  return validator.isAlphanumeric(code) && validator.isLength(code, { min: 8, max: 16 });
 };
 
 export const validateRequired = (value: any, fieldName: string): void => {
-  if (!value || (typeof value === 'string' && value.trim() === '')) {
+  if (value === undefined || value === null || (typeof value === 'string' && validator.isEmpty(value.trim()))) {
     throw new ApiError(400, `${fieldName} is required`);
   }
 };
