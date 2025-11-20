@@ -5,6 +5,7 @@ import api from '../services/api';
 import Link from 'next/link';
 
 const Register = () => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [referralCode, setReferralCode] = useState('');
@@ -16,7 +17,7 @@ const Register = () => {
         e.preventDefault();
         setError('');
         try {
-            const res = await api.post('/auth/register', { email, password, referralCode });
+            const res = await api.post('/auth/register', { name, email, password, referralCode });
             localStorage.setItem('token', res.data.data.token);
             setUser(res.data.data.user);
             router.push('/');
@@ -31,6 +32,16 @@ const Register = () => {
                 <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 mb-2">Name</label>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full p-2 border rounded"
+                            required
+                        />
+                    </div>
                     <div className="mb-4">
                         <label className="block text-gray-700 mb-2">Email</label>
                         <input
