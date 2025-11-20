@@ -62,20 +62,33 @@ const Dashboard: React.FC = () => {
   const convertedUsers = referrals.filter((r) => r.status === 'converted').length;
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="container mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <main className="container mx-auto px-6 py-12">
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Dashboard</h1>
+          <p className="text-gray-600 text-lg">Welcome back, {user.name}!</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <StatsCard title="Total Referred Users" value={totalReferred} icon="👥" />
           <StatsCard title="Converted Users" value={convertedUsers} icon="✅" />
           <StatsCard title="Total Credits Earned" value={credits} icon="💰" />
         </div>
-        <ReferralCard />
-        <div className="mt-6">
-          <PurchaseButton />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div>
+            <ReferralCard />
+          </div>
+          <div className="flex items-center justify-center bg-white p-8 rounded-xl shadow-sm border border-gray-100 mt-8 lg:mt-0">
+            <div className="w-full">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">Quick Actions</h2>
+              <p className="text-gray-500 text-center mb-8">Make a purchase to activate your account or boost your credits.</p>
+              <PurchaseButton />
+            </div>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

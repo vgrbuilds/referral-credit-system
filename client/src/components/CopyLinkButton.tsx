@@ -21,9 +21,15 @@ const CopyLinkButton: React.FC<CopyLinkButtonProps> = ({ link }) => {
   return (
     <button
       onClick={handleCopy}
-      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+      className={`
+        px-6 py-2.5 rounded-md font-medium transition-all duration-200
+        ${copied
+          ? 'bg-green-100 text-green-700'
+          : 'bg-blue-600 text-white hover:bg-blue-700 shadow-sm hover:shadow'
+        }
+      `}
     >
-      {copied ? 'Copied!' : 'Copy'}
+      {copied ? 'Copied!' : 'Copy Link'}
     </button>
   );
 };
