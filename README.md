@@ -2,8 +2,6 @@
 
 A full-stack application demonstrating a referral and credit system. Users can sign up, get a unique referral link, and earn credits when their referred friends make a purchase.
 
-![Project Screenshot](https://via.placeholder.com/800x400.png?text=Project+Screenshot)
-
 ## ✨ Features
 
 - **User Authentication:** Secure user registration and login.
